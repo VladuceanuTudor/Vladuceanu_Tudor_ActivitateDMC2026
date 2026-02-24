@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MyApplication</string>
+    <string name="text_view_text">Hallo! Dies ist Tudors App.</string>
+    <string name="button_text">Drücke für eine Überraschung</string>
+    <string name="edit_text_hint">Text hier eingeben</string>
+    <string name="text_changed">Text geändert!</string>
+</resources>

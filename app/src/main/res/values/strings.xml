@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MyApplication</string>
+
+    <string name="text_view_text">Salut! Aceasta este aplicația lui Tudor.</string>
+    <string name="button_text">Apasa pentru o surpriza</string>
+    <string name="edit_text_hint">Introdu text aici</string>
+    <string name="text_changed">Text modificat!</string>
+
+</resources>
