@@ -6,7 +6,6 @@
     android:padding="20dp">
 
     <TextView
-        android:id="@+id/tvTitluMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TV Manager"
@@ -19,41 +18,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Adaugă TV nou"
-        android:layout_marginBottom="30dp"/>
+        android:layout_marginBottom="16dp"/>
 
-    <TextView
-        android:id="@+id/tvMarca"
+    <ListView
+        android:id="@+id/listViewTV"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Marcă: -"
-        android:textSize="16sp"/>
-
-    <TextView
-        android:id="@+id/tvDiagonala"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Diagonală: -"
-        android:textSize="16sp"/>
-
-    <TextView
-        android:id="@+id/tvSmartTV"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Smart TV: -"
-        android:textSize="16sp"/>
-
-    <TextView
-        android:id="@+id/tvPret"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Preț: -"
-        android:textSize="16sp"/>
-
-    <TextView
-        android:id="@+id/tvTipPanel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Tip panou: -"
-        android:textSize="16sp"/>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>
