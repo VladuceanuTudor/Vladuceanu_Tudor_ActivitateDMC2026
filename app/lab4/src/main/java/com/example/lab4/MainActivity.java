@@ -6,7 +6,6 @@ import android.widget.*;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -15,15 +14,33 @@ public class MainActivity extends AppCompatActivity {
     Button btnAdauga;
 
     ArrayList<TV> listaTVuri = new ArrayList<>();
-    ArrayAdapter<TV> adapter;
+    TVAdapter adapter;
 
-    ActivityResultLauncher<Intent> launcher = registerForActivityResult(
+    // Reținem poziția selectată pentru modificare
+    int pozitieSelectata = -1;
+
+    // Launcher pentru ADĂUGARE
+    ActivityResultLauncher<Intent> launcherAdauga = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    TV tv = (TV) result.getData().getSerializableExtra("tv");
+                    TV tv = result.getData().getParcelableExtra("tv");
                     listaTVuri.add(tv);
                     adapter.notifyDataSetChanged();
+                }
+            }
+    );
+
+    // Launcher pentru MODIFICARE
+    ActivityResultLauncher<Intent> launcherModifica = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    TV tvModificat = result.getData().getParcelableExtra("tv");
+                    // Înlocuim obiectul de la poziția selectată
+                    listaTVuri.set(pozitieSelectata, tvModificat);
+                    adapter.notifyDataSetChanged();
+                    pozitieSelectata = -1;
                 }
             }
     );
@@ -36,29 +53,28 @@ public class MainActivity extends AppCompatActivity {
         listViewTV = findViewById(R.id.listViewTV);
         btnAdauga = findViewById(R.id.btnAdauga);
 
-        // ArrayAdapter folosește toString() din clasa TV
-        adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1,
-                listaTVuri);
+        adapter = new TVAdapter(this, listaTVuri);
         listViewTV.setAdapter(adapter);
 
         btnAdauga.setOnClickListener(v -> {
             Intent intent = new Intent(this, AdaugaActivity.class);
-            launcher.launch(intent);
+            launcherAdauga.launch(intent);
         });
 
-        // Click simplu → Toast cu detalii
+        // Click simplu → deschide activitatea pentru MODIFICARE
         listViewTV.setOnItemClickListener((parent, view, position, id) -> {
-            TV tv = listaTVuri.get(position);
-            Toast.makeText(this, tv.toString(), Toast.LENGTH_LONG).show();
+            pozitieSelectata = position;
+            Intent intent = new Intent(this, AdaugaActivity.class);
+            intent.putExtra("tv", listaTVuri.get(position)); // trimitem obiectul existent
+            launcherModifica.launch(intent);
         });
 
-        // Long click → șterge din listă
+        // Long click → șterge
         listViewTV.setOnItemLongClickListener((parent, view, position, id) -> {
             listaTVuri.remove(position);
             adapter.notifyDataSetChanged();
             Toast.makeText(this, "TV șters!", Toast.LENGTH_SHORT).show();
-            return true; // consumă evenimentul
+            return true;
         });
     }
 }

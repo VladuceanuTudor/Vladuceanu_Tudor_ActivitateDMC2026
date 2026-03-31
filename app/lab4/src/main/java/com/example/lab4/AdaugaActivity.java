@@ -1,6 +1,5 @@
 package com.example.lab4;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.*;
@@ -19,14 +18,15 @@ public class AdaugaActivity extends AppCompatActivity {
     Switch switchDisponibil;
     ToggleButton togglePromotie;
     Button btnSalveaza;
-    CalendarView calendarView;          // <- aici, nu în onCreate
-    Date dataSelectata = new Date();    // <- aici, nu în onCreate
+    CalendarView calendarView;
+    Date dataSelectata = new Date();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adauga);
 
+        // findViewById pentru TOATE view-urile
         etMarca = findViewById(R.id.etMarca);
         etDiagonala = findViewById(R.id.etDiagonala);
         spinnerTipPanel = findViewById(R.id.spinnerTipPanel);
@@ -38,23 +38,48 @@ public class AdaugaActivity extends AppCompatActivity {
         btnSalveaza = findViewById(R.id.btnSalveaza);
         calendarView = findViewById(R.id.calendarView);
 
-        ArrayAdapter<TipPanel> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_item,
-                TipPanel.values()
-        );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerTipPanel.setAdapter(adapter);
+        // Setup Spinner
+        ArrayAdapter<TipPanel> adapterSpinner = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_item, TipPanel.values());
+        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerTipPanel.setAdapter(adapterSpinner);
 
+        // Setup Calendar
         calendarView.setOnDateChangeListener((view, an, luna, zi) -> {
             Calendar cal = Calendar.getInstance();
             cal.set(an, luna, zi);
             dataSelectata = cal.getTime();
         });
 
+        // Verificăm dacă am primit un TV existent (modificare)
+        TV tvExistent = getIntent().getParcelableExtra("tv");
+        if (tvExistent != null) {
+            etMarca.setText(tvExistent.getMarca());
+            etDiagonala.setText(String.valueOf(tvExistent.getDiagonala()));
+            cbSmartTV.setChecked(tvExistent.isEsteSmartTV());
+
+            TipPanel[] tipuri = TipPanel.values();
+            for (int i = 0; i < tipuri.length; i++) {
+                if (tipuri[i] == tvExistent.getTipPanel()) {
+                    spinnerTipPanel.setSelection(i);
+                    break;
+                }
+            }
+
+            dataSelectata = tvExistent.getDataAdaugarii();
+            calendarView.setDate(dataSelectata.getTime());
+        }
+
         btnSalveaza.setOnClickListener(v -> {
             String marca = etMarca.getText().toString();
-            int diagonala = Integer.parseInt(etDiagonala.getText().toString());
+            String diagonalaText = etDiagonala.getText().toString();
+
+            if (marca.isEmpty() || diagonalaText.isEmpty()) {
+                Toast.makeText(this, "Completați toate câmpurile!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            int diagonala = Integer.parseInt(diagonalaText);
             boolean esteSmart = cbSmartTV.isChecked();
             double pret = ratingBar.getRating() * 100;
             TipPanel tipPanel = (TipPanel) spinnerTipPanel.getSelectedItem();
