@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="#ECEFF1">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="⚙️ Setări"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:textColor="#1A237E"
+        android:gravity="center"
+        android:layout_marginBottom="24dp"/>
+
+    <!-- Preview -->
+    <TextView
+        android:id="@+id/tvPreview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Preview text"
+        android:gravity="center"
+        android:padding="16dp"
+        android:background="#FFFFFF"
+        android:layout_marginBottom="24dp"/>
+
+    <!-- Dimensiune -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dimensiune text"
+        android:textColor="#455A64"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <SeekBar
+        android:id="@+id/seekBarDimensiune"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"/>
+
+    <!-- Culoare -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Culoare text"
+        android:textColor="#455A64"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <RadioGroup
+        android:id="@+id/rgCuloare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="32dp">
+
+        <RadioButton
+            android:id="@+id/rbAlbastru"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Albastru"
+            android:checked="true"
+            android:textColor="#1A237E"/>
+
+        <RadioButton
+            android:id="@+id/rbRosu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Roșu"
+            android:textColor="#F44336"/>
+
+        <RadioButton
+            android:id="@+id/rbVerde"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Verde"
+            android:textColor="#4CAF50"/>
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btnSalveazaSetari"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="💾 Salvează setările"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#3949AB"
+        android:textStyle="bold"/>
+
+</LinearLayout>

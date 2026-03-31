@@ -15,7 +15,7 @@
             android:id="@+id/tvTitlu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="📺 Adaugă TV"
+            android:text=" Adaugă TV"
             android:textSize="26sp"
             android:textStyle="bold"
             android:textColor="#1A237E"
@@ -38,15 +38,17 @@
                 android:padding="16dp">
 
                 <TextView
+                    android:id="@+id/tvInfoGenerale"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="📋 Informații generale"
+                    android:text=" Informații generale"
                     android:textSize="14sp"
                     android:textColor="#5C6BC0"
                     android:textStyle="bold"
                     android:layout_marginBottom="12dp"/>
 
                 <TextView
+                    android:id="@+id/tvLabelMarca"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Marcă"
@@ -64,6 +66,7 @@
                     android:layout_marginBottom="12dp"/>
 
                 <TextView
+                    android:id="@+id/tvLabelDiagonala"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Diagonală (inch)"
@@ -81,6 +84,7 @@
                     android:layout_marginBottom="12dp"/>
 
                 <TextView
+                    android:id="@+id/tvLabelTipPanel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tip panou"
@@ -113,9 +117,10 @@
                 android:padding="16dp">
 
                 <TextView
+                    android:id="@+id/tvCaracteristici"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="⚙️ Caracteristici"
+                    android:text=" Caracteristici"
                     android:textSize="14sp"
                     android:textColor="#5C6BC0"
                     android:textStyle="bold"
@@ -131,6 +136,7 @@
                     android:layout_marginBottom="12dp"/>
 
                 <TextView
+                    android:id="@+id/tvLabelConditie"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Condiție"
@@ -203,6 +209,7 @@
                 android:gravity="center">
 
                 <TextView
+                    android:id="@+id/tvRating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="⭐ Rating"
@@ -237,9 +244,10 @@
                 android:padding="16dp">
 
                 <TextView
+                    android:id="@+id/tvDataAchizitie"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="📅 Data achiziției"
+                    android:text="📅 Data achizitiei"
                     android:textSize="14sp"
                     android:textColor="#5C6BC0"
                     android:textStyle="bold"
@@ -258,7 +266,7 @@
             android:id="@+id/btnSalveaza"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:text="✅ Salvează TV"
+            android:text="✅ Salveaza TV"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="#FFFFFF"

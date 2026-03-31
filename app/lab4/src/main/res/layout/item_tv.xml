@@ -14,16 +14,7 @@
         android:orientation="horizontal"
         android:padding="12dp">
 
-        <!-- Emoji tip panel -->
-        <TextView
-            android:id="@+id/tvEmoji"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="32sp"
-            android:layout_marginEnd="12dp"
-            android:gravity="center_vertical"/>
 
-        <!-- Detalii TV -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"

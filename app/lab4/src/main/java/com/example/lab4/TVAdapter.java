@@ -32,25 +32,15 @@ public class TVAdapter extends ArrayAdapter<TV> {
 
         TV tv = lista.get(position);
 
-        TextView tvEmoji = convertView.findViewById(R.id.tvEmoji);
         TextView tvMarca = convertView.findViewById(R.id.tvItemMarca);
         TextView tvDetalii = convertView.findViewById(R.id.tvItemDetalii);
         TextView tvData = convertView.findViewById(R.id.tvItemData);
         TextView tvBadge = convertView.findViewById(R.id.tvBadge);
 
-        // Emoji după tipul panoului
-        switch (tv.getTipPanel()) {
-            case OLED: tvEmoji.setText("🌟"); break;
-            case QLED: tvEmoji.setText("✨"); break;
-            case LED:  tvEmoji.setText("💡"); break;
-            default:   tvEmoji.setText("📺"); break;
-        }
-
         tvMarca.setText(tv.getMarca());
         tvDetalii.setText(tv.getDiagonala() + "\" • " + tv.getTipPanel() + " • " + tv.getPret() + " RON");
         tvData.setText("Adăugat: " + sdf.format(tv.getDataAdaugarii()));
 
-        // Badge Smart / Basic
         if (tv.isEsteSmartTV()) {
             tvBadge.setText("SMART");
             tvBadge.setBackgroundColor(Color.parseColor("#3949AB"));

@@ -1,12 +1,16 @@
 package com.example.lab4;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 public class AdaugaActivity extends AppCompatActivity {
 
@@ -21,12 +25,29 @@ public class AdaugaActivity extends AppCompatActivity {
     CalendarView calendarView;
     Date dataSelectata = new Date();
 
+    private void salveazaInFisier(TV tv) {
+        try {
+            FileOutputStream fos = openFileOutput("televizoare.txt", MODE_APPEND);
+            OutputStreamWriter writer = new OutputStreamWriter(fos);
+            writer.write(
+                    tv.getMarca() + "|" +
+                            tv.getDiagonala() + "|" +
+                            tv.isEsteSmartTV() + "|" +
+                            tv.getPret() + "|" +
+                            tv.getTipPanel().name() + "|" +
+                            tv.getDataAdaugarii().getTime() + "\n"
+            );
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adauga);
 
-        // findViewById pentru TOATE view-urile
         etMarca = findViewById(R.id.etMarca);
         etDiagonala = findViewById(R.id.etDiagonala);
         spinnerTipPanel = findViewById(R.id.spinnerTipPanel);
@@ -38,6 +59,35 @@ public class AdaugaActivity extends AppCompatActivity {
         btnSalveaza = findViewById(R.id.btnSalveaza);
         calendarView = findViewById(R.id.calendarView);
 
+        SharedPreferences prefs = getSharedPreferences(SetariActivity.PREFS_NAME, MODE_PRIVATE);
+        int dimensiune = prefs.getInt(SetariActivity.KEY_DIMENSIUNE, 16);
+        String culoare = prefs.getString(SetariActivity.KEY_CULOARE, "#1A237E");
+        int culoareInt = android.graphics.Color.parseColor(culoare);
+
+
+        int[] iduriTextView = {
+                R.id.tvTitlu,
+                R.id.tvInfoGenerale,
+                R.id.tvLabelMarca,
+                R.id.tvLabelDiagonala,
+                R.id.tvLabelTipPanel,
+                R.id.tvCaracteristici,
+                R.id.tvLabelConditie,
+                R.id.tvRating,
+                R.id.tvDataAchizitie
+        };
+
+        for (int id : iduriTextView) {
+            TextView tv = findViewById(id);
+            if (tv != null) {
+                tv.setTextSize(dimensiune);
+                tv.setTextColor(culoareInt);
+            }
+        }
+
+
+        TextView tvTitlu = findViewById(R.id.tvTitlu);
+        tvTitlu.setTextSize(dimensiune + 4);
         // Setup Spinner
         ArrayAdapter<TipPanel> adapterSpinner = new ArrayAdapter<>(
                 this, android.R.layout.simple_spinner_item, TipPanel.values());
@@ -51,7 +101,7 @@ public class AdaugaActivity extends AppCompatActivity {
             dataSelectata = cal.getTime();
         });
 
-        // Verificăm dacă am primit un TV existent (modificare)
+        // Pre-completare câmpuri dacă e modificare
         TV tvExistent = getIntent().getParcelableExtra("tv");
         if (tvExistent != null) {
             etMarca.setText(tvExistent.getMarca());
@@ -85,6 +135,8 @@ public class AdaugaActivity extends AppCompatActivity {
             TipPanel tipPanel = (TipPanel) spinnerTipPanel.getSelectedItem();
 
             TV tv = new TV(marca, diagonala, esteSmart, pret, tipPanel, dataSelectata);
+
+            salveazaInFisier(tv);
 
             Intent rezultat = new Intent();
             rezultat.putExtra("tv", tv);

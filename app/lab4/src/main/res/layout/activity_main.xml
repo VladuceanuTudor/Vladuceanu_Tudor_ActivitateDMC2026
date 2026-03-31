@@ -20,6 +20,13 @@
         android:text="Adaugă TV nou"
         android:layout_marginBottom="16dp"/>
 
+    <Button
+        android:id="@+id/btnSetari"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="⚙️ Setări"
+        android:layout_marginBottom="8dp"/>
+
     <ListView
         android:id="@+id/listViewTV"
         android:layout_width="match_parent"

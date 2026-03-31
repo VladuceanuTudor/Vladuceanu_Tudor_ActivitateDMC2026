@@ -7,6 +7,14 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,10 +24,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<TV> listaTVuri = new ArrayList<>();
     TVAdapter adapter;
 
-    // Reținem poziția selectată pentru modificare
     int pozitieSelectata = -1;
 
-    // Launcher pentru ADĂUGARE
     ActivityResultLauncher<Intent> launcherAdauga = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -45,6 +51,41 @@ public class MainActivity extends AppCompatActivity {
             }
     );
 
+    private void incarcaDinFisier() {
+        try {
+            FileInputStream fis = openFileInput("televizoare.txt");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+            String linie;
+            while ((linie = reader.readLine()) != null) {
+                String[] parti = linie.split("\\|");
+                if (parti.length == 6) {
+                    String marca = parti[0];
+                    int diagonala = Integer.parseInt(parti[1]);
+                    boolean esteSmart = Boolean.parseBoolean(parti[2]);
+                    double pret = Double.parseDouble(parti[3]);
+                    TipPanel tipPanel = TipPanel.valueOf(parti[4]);
+                    Date data = new Date(Long.parseLong(parti[5]));
+
+                    listaTVuri.add(new TV(marca, diagonala, esteSmart, pret, tipPanel, data));
+                }
+            }
+            reader.close();
+        } catch (IOException e) {
+            // Fișierul nu există încă — prima rulare, ignorăm
+        }
+    }
+
+    private void salveazaFavorit(TV tv) {
+        try {
+            FileOutputStream fos = openFileOutput("favorite.txt", MODE_APPEND);
+            OutputStreamWriter writer = new OutputStreamWriter(fos);
+            writer.write(tv.toString() + "\n");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,24 +97,33 @@ public class MainActivity extends AppCompatActivity {
         adapter = new TVAdapter(this, listaTVuri);
         listViewTV.setAdapter(adapter);
 
+        incarcaDinFisier();
+        adapter.notifyDataSetChanged();
+
         btnAdauga.setOnClickListener(v -> {
             Intent intent = new Intent(this, AdaugaActivity.class);
             launcherAdauga.launch(intent);
         });
 
-        // Click simplu → deschide activitatea pentru MODIFICARE
+        Button btnSetari = findViewById(R.id.btnSetari);
+        btnSetari.setOnClickListener(v -> {
+            Intent intent = new Intent(this, SetariActivity.class);
+            startActivity(intent);
+        });
+
         listViewTV.setOnItemClickListener((parent, view, position, id) -> {
             pozitieSelectata = position;
             Intent intent = new Intent(this, AdaugaActivity.class);
-            intent.putExtra("tv", listaTVuri.get(position)); // trimitem obiectul existent
+            intent.putExtra("tv", listaTVuri.get(position));
             launcherModifica.launch(intent);
         });
 
-        // Long click → șterge
+
         listViewTV.setOnItemLongClickListener((parent, view, position, id) -> {
-            listaTVuri.remove(position);
+            TV tv = listaTVuri.get(position);
+            salveazaFavorit(tv);
             adapter.notifyDataSetChanged();
-            Toast.makeText(this, "TV șters!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "TV salvat la favorite!", Toast.LENGTH_SHORT).show();
             return true;
         });
     }
