@@ -51,11 +51,18 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnAdauga = findViewById(R.id.btnAdauga);
         Button btnAfiseazaToate = findViewById(R.id.btnAfiseazaToate);
+        Button btnGalerie = findViewById(R.id.btnGalerie);
         Button btnCautaMarca = findViewById(R.id.btnCautaMarca);
         Button btnFiltreazaDiag = findViewById(R.id.btnFiltreazaDiag);
         Button btnStergePretMare = findViewById(R.id.btnStergePretMare);
         Button btnStergePretMic = findViewById(R.id.btnStergePretMic);
         Button btnCresteDialonala = findViewById(R.id.btnCresteDialonala);
+
+        // Galerie - deschide activitatea cu imagini
+        btnGalerie.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ImaginiActivity.class);
+            startActivity(intent);
+        });
 
         // Setup adapter
         adapter = new TVAdapter(this, listaTVuri);
