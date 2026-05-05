@@ -10,9 +10,11 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/app/lab10" />
             <option value="$PROJECT_DIR$/app/lab3" />
             <option value="$PROJECT_DIR$/app/lab4" />
             <option value="$PROJECT_DIR$/app/lab8" />
+            <option value="$PROJECT_DIR$/simularepartialvladuceanutudor" />
           </set>
         </option>
       </GradleProjectSettings>

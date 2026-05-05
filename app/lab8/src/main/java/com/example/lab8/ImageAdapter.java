@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 public class ImageAdapter extends ArrayAdapter<TVImage> {
 
     private final Context context;
@@ -84,10 +83,8 @@ public class ImageAdapter extends ArrayAdapter<TVImage> {
                 input.close();
 
                 if (bitmap != null) {
-                    // Salveaza in cache
                     imageCache.put(imageUrl, bitmap);
 
-                    // Actualizeaza UI pe main thread
                     mainHandler.post(() -> {
                         imageView.setImageBitmap(bitmap);
                     });
